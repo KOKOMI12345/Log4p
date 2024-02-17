@@ -27,7 +27,7 @@ logger.warning('这是一个警告信息')
 
 ### 参数介绍
 
--`log_name`: 指定日志记录器的名称
--`out_to_console`: 是否输出到控制台,默认true
--`web_log_mode`:是否启用websocket日志输出模式,默认false
--`post_url`: 如果启用上述模式,则传入post_url,否则不管,默认None
+- `log_name`: 指定日志记录器的名称
+- `out_to_console`: 是否输出到控制台,默认true
+- `web_log_mode`:是否启用websocket日志输出模式,默认false
+- `post_url`: 如果启用上述模式,则传入post_url,否则不管,默认None
