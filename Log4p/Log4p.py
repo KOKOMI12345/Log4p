@@ -1,11 +1,9 @@
 import logging
 import colorlog
 import os
-from websocketHander import WebsocketHandler
+from Log4p.websocketHander import WebsocketHandler
 import asyncio
-from logging.handlers import QueueHandler, QueueListener
-from HttpHander import HTTPhandler , AsyncHTTPhandler
-
+from Log4p.HttpHander import HTTPhandler , AsyncHTTPhandler
 class LogManager:
     def __init__(self) -> None:
         pass
@@ -48,7 +46,6 @@ class LogManager:
             logger.setLevel(logging.DEBUG)
             logger.addHandler(console_handler)
 
-        
         file_handler = logging.FileHandler(
             filename=f'logs/{log_name}/{log_name}.log', mode='a', encoding='utf-8')
         file_handler.setLevel(logging.INFO)
@@ -58,16 +55,11 @@ class LogManager:
         )
         file_handler.setFormatter(formatter)
 
-        if not logger.handlers:
-            # 检查代码是否在异步环境中运行
-            if asyncio.iscoroutinefunction(logging.Handler.emit):
-                queue = asyncio.Queue()
-                queue_handler = QueueHandler(queue)
-                queue_listener = QueueListener(queue, file_handler)
-                logger.addHandler(queue_handler)
-                asyncio.ensure_future(queue_listener.start())
-            else:
-                logger.addHandler(file_handler)
+        # 检查代码是否在异步环境中运行
+        if asyncio.iscoroutinefunction(logging.Handler.emit):
+            logger.addHandler(file_handler)
+        else:
+            logger.addHandler(file_handler)
 
         if web_log_mode and WSpost_url:
             websocket_handler = WebsocketHandler(WSpost_url)
