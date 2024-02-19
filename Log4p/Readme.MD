@@ -18,6 +18,7 @@ logger = LogManager().GetLogger(
     WSpost_url='ws://localhost:8765',
     HTTPpost_url='http://localhost:8765',
     http_mode = True
+    custom_fomatter='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 
 logger.info('这是一个成功信息')
@@ -35,3 +36,13 @@ logger.warning('这是一个警告信息')
 - `WSpost_url`: 如果启用websocket模式,则传入post_url,否则不管,默认None
 - `HTTPpost_url`: 如果启用http模式,则传入post_url,否则不管,默认None
 - `http_mode`: 是否启用http日志输出模式,默认false
+
+## 更新日志
+
+# 2024/2/20 1:01
+
+更新了自定义格式功能,修复了少量bug
+
+## 添加参数
+
+- `custom_formatter`: 自定义格式化函数,默认None
