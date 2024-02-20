@@ -1,6 +1,6 @@
 import logging
 import requests
-import aiohttp
+import httpx
 
 class HTTPhandler(logging.Handler):
     def __init__(self, url):
@@ -17,7 +17,7 @@ class HTTPhandler(logging.Handler):
         except Exception as e:
             logging.error("Failed to send log to %s: %s", self.url, e)
 
-class AsyncHTTPhandler(logging.Handler):
+class AsyncHTTPXHandler(logging.Handler):
     def __init__(self, url):
         super().__init__()
         self.url = url
@@ -26,10 +26,10 @@ class AsyncHTTPhandler(logging.Handler):
         log_entry = self.format(record)
         payload = {'log': log_entry}
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(self.url, json=payload) as response:
-                    if not response.ok:
-                        raise ValueError(await response.text())
+            async with httpx.AsyncClient(timeout=120,max_redirects=5) as client:
+                response = await client.post(self.url, json=payload)
+                if not response.is_success:
+                    raise ValueError(await response.text())
         except Exception as e:
             logging.error("Failed to send log to %s: %s", self.url, e)
 
