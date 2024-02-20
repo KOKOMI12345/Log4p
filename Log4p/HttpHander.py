@@ -17,7 +17,7 @@ class HTTPhandler(logging.Handler):
         except Exception as e:
             logging.error("Failed to send log to %s: %s", self.url, e)
 
-class AsyncHTTPXHandler(logging.Handler):
+class AsyncHTTPhandler(logging.Handler):
     def __init__(self, url):
         super().__init__()
         self.url = url
