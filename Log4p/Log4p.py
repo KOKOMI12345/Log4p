@@ -1,4 +1,4 @@
-from plugins import *
+from plugins_for_core import *
 
 class LogManager:
     def __init__(self) -> None:
